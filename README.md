@@ -1,66 +1,32 @@
-## Foundry
+# Building your first hook
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A really simple onchain "points program"
 
-Foundry consists of:
+Assume we launch some memecoin - TOKEN
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+we set up a pool for ETH/TOKEN
 
-## Documentation
+We're gonna issue points for every time somebody buys TOKEN with ETH
+We're gonna issue points everytime somebody adds liquidity to the pool
 
-https://book.getfoundry.sh/
+## How many points to give out?
 
-## Usage
+For every swap, we will give out (20% of the value in ETH) as points
+e.g. if somebody sells 1 ETH to buy "TOKEN", they will get 0.2 POINTS
 
-### Build
+For add liquidity, we'll keep it 1:1 for ETH added
 
-```shell
-$ forge build
-```
+## How are these points represented?
 
-### Test
+Separate ERC-20 token, call it POINTS, minting POINTS to people who do those above things
 
-```shell
-$ forge test
-```
+(1) - issue points everytime somebody swaps to buy TOKEN for ETH
 
-### Format
+we will issue points proportional to amount of ETH being spent in the swap
 
-```shell
-$ forge fmt
-```
+HOW Much ETH is being spent in the swap => we only know this for sure AFTER the swap has happened
 
-### Gas Snapshots
+afterSwap
+(2) - issue points everytime somebody adds liquidity
 
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+afterAddLiquidity
